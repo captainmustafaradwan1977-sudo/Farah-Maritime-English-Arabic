@@ -1,0 +1,11 @@
+BUILD APK - QUICK GUIDE
+
+Open the FarahMaritimeAndroid folder in Android Studio.
+Wait for Gradle sync and install the requested SDK Platform 35 if prompted.
+Select Build > Build Bundle(s) / APK(s) > Build APK(s).
+The debug APK is normally created at:
+app/build/outputs/apk/debug/app-debug.apk
+
+For a shareable release APK, use Build > Generate Signed Bundle / APK > APK,
+create and securely back up a signing key, then complete the wizard.
+Never share your keystore or passwords.
