@@ -1,9 +1,12 @@
-name: Build Farah Maritime APK
+name: Build Farah Maritime Android releases
 
 on:
   workflow_dispatch:
   push:
     branches: [main]
+
+permissions:
+  contents: read
 
 jobs:
   build:
@@ -18,15 +21,15 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Set up Android SDK
+      - name: Set up Android SDK 36
         uses: android-actions/setup-android@v3
         with:
-          packages: 'platforms;android-35 build-tools;35.0.0'
+          packages: 'platforms;android-36 build-tools;35.0.0'
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-version: '8.9'
+          gradle-version: '8.11.1'
 
       - name: Arrange Android project files
         run: |
@@ -41,12 +44,35 @@ jobs:
           cp styles.xml app/src/main/res/values/styles.xml
           cp ic_launcher.xml app/src/main/res/drawable/ic_launcher.xml
 
-      - name: Build debug APK
-        run: gradle assembleDebug --stacktrace
+      - name: Prepare optional Play upload key
+        if: ${{ secrets.UPLOAD_KEYSTORE_BASE64 != '' }}
+        env:
+          UPLOAD_KEYSTORE_BASE64: ${{ secrets.UPLOAD_KEYSTORE_BASE64 }}
+        run: |
+          echo "$UPLOAD_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/farah-upload-key.jks"
 
-      - name: Upload APK
+      - name: Build APK and Play Store App Bundle
+        env:
+          UPLOAD_STORE_PASSWORD: ${{ secrets.UPLOAD_STORE_PASSWORD }}
+          UPLOAD_KEY_ALIAS: ${{ secrets.UPLOAD_KEY_ALIAS }}
+          UPLOAD_KEY_PASSWORD: ${{ secrets.UPLOAD_KEY_PASSWORD }}
+        run: |
+          if [ -f "$RUNNER_TEMP/farah-upload-key.jks" ]; then
+            gradle assembleDebug bundleRelease \
+              -PUPLOAD_STORE_FILE="$RUNNER_TEMP/farah-upload-key.jks" \
+              -PUPLOAD_STORE_PASSWORD="$UPLOAD_STORE_PASSWORD" \
+              -PUPLOAD_KEY_ALIAS="$UPLOAD_KEY_ALIAS" \
+              -PUPLOAD_KEY_PASSWORD="$UPLOAD_KEY_PASSWORD" --stacktrace
+          else
+            gradle assembleDebug bundleRelease --stacktrace
+          fi
+
+      - name: Upload Android build files
         uses: actions/upload-artifact@v4
         with:
-          name: Farah-Maritime-debug-APK
-          path: app/build/outputs/apk/debug/app-debug.apk
+          name: Farah-Maritime-Play-Store-Build
+          path: |
+            app/build/outputs/apk/debug/app-debug.apk
+            app/build/outputs/bundle/release/app-release.aab
           if-no-files-found: error
+          retention-days: 90
