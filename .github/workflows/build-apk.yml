@@ -6,7 +6,7 @@ on:
     branches: [main]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -45,11 +45,12 @@ jobs:
           cp ic_launcher.xml app/src/main/res/drawable/ic_launcher.xml
 
       - name: Prepare optional Play upload key
-        if: ${{ secrets.UPLOAD_KEYSTORE_BASE64 != '' }}
         env:
           UPLOAD_KEYSTORE_BASE64: ${{ secrets.UPLOAD_KEYSTORE_BASE64 }}
         run: |
-          echo "$UPLOAD_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/farah-upload-key.jks"
+          if [ -n "$UPLOAD_KEYSTORE_BASE64" ]; then
+            echo "$UPLOAD_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/farah-upload-key.jks"
+          fi
 
       - name: Build APK and Play Store App Bundle
         env:
@@ -66,13 +67,25 @@ jobs:
           else
             gradle assembleDebug bundleRelease --stacktrace
           fi
+          mkdir -p dist
+          cp app/build/outputs/apk/debug/app-debug.apk dist/Farah-Maritime.apk
+          cp app/build/outputs/bundle/release/app-release.aab dist/Farah-Maritime.aab
 
-      - name: Upload Android build files
+      - name: Upload build files
         uses: actions/upload-artifact@v4
         with:
           name: Farah-Maritime-Play-Store-Build
-          path: |
-            app/build/outputs/apk/debug/app-debug.apk
-            app/build/outputs/bundle/release/app-release.aab
+          path: dist/*
           if-no-files-found: error
           retention-days: 90
+
+      - name: Publish public APK download release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.1.${{ github.run_number }}
+          name: Farah Maritime v1.1.${{ github.run_number }}
+          body: |
+            Farah Maritime English and Arabic – Android APK.
+            This APK is for direct Android installation. The AAB is retained as a build artifact for Play Console signing and upload.
+          files: dist/Farah-Maritime.apk
+          make_latest: true
