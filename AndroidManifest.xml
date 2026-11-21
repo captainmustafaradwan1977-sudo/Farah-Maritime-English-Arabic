@@ -2,9 +2,7 @@
     <application
         android:theme="@style/AppTheme"
         android:label="Farah Maritime English and Arabic"
-        android:icon="@drawable/ic_launcher"
-        android:description="Offline bilingual maritime English learning app"
-        android:usesCleartextTraffic="false"
+        android:icon="@drawable/ic_launcher"        android:usesCleartextTraffic="false"
         android:allowBackup="true"
         android:supportsRtl="true">
         <activity
