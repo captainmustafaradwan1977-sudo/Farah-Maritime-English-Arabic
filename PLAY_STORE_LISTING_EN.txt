@@ -1,0 +1,20 @@
+App name: Farah Maritime English and Arabic
+
+Short description:
+Learn ship parts and maritime terms in English and Arabic with offline lessons and quizzes.
+
+Full description:
+Farah Maritime English and Arabic is a beginner-friendly learning app for people interested in ships and maritime work. It introduces basic maritime English vocabulary with Arabic meanings in a simple bilingual format.
+
+Features:
+• Bilingual lessons about ship parts, equipment, and maritime terminology.
+• English terms with Arabic meanings.
+• Short quizzes to review lessons and check learning progress.
+• Save useful vocabulary and keep learning progress on your device.
+• English word pronunciation through the Android text-to-speech service available on your device.
+• Designed to work offline after installation.
+
+This is an educational app for beginners. It is not a substitute for approved maritime training, onboard safety procedures, or official operational instructions.
+
+Suggested category: Education
+Suggested audience: Beginners, maritime students, and people interested in ship terminology.
