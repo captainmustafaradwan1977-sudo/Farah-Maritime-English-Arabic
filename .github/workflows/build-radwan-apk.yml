@@ -7,7 +7,7 @@ on:
       - '.github/workflows/build-radwan-apk.yml'
     branches: [main]
 permissions:
-  contents: read
+  contents: write
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -40,3 +40,10 @@ jobs:
           name: RADWAN-MARINE-STORES-FINDER-APK
           path: dist/RADWAN-MARINE-STORES-FINDER.apk
           retention-days: 90
+      - name: Publish direct APK download
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: radwan-v1.0.${{ github.run_number }}
+          name: RADWAN MARINE STORES FINDER v1.0.${{ github.run_number }}
+          generate_release_notes: true
+          files: dist/RADWAN-MARINE-STORES-FINDER.apk
