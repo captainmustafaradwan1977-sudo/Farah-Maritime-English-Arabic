@@ -30,7 +30,7 @@ const starter=[
 ["Ball valve","صمام كروي","Valves","PCS","Specify DN, pressure rating, material and end connection."],
 ["Bearing","رولمان بلي","Machinery","PCS","Specify full bearing number and dimensions."],
 ["Air filter element","عنصر فلتر هواء","Machinery","PCS","Specify equipment maker and part number."]
-].map((r,i)=>({id:"s"+i,name_en:r[0],name_ar:r[1],impa:"",issa:"",category:r[2],unit:r[3],description:r[4],origin:"starter"}));
+,...(window.RM_EXTRA_CATALOGUE||[])].map((r,i)=>({id:"s"+i,name_en:r[0],name_ar:r[1],impa:"",issa:"",category:r[2],unit:r[3],description:r[4],origin:"starter"}));
 let custom=JSON.parse(localStorage.getItem("rm_custom")||"[]"), imported=JSON.parse(localStorage.getItem("rm_imported")||"[]"), cart=[],saved=JSON.parse(localStorage.getItem("rm_saved")||"[]"),lang=localStorage.getItem("rm_lang")||"en";
 const all=()=>[...starter,...imported,...custom];
 const txt=(en,ar)=>lang==="ar"?ar:en;
