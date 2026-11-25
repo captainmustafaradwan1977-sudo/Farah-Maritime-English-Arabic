@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="theme-color" content="#0b2239"><title>RADWAN MARINE STORES FINDER</title><link rel="stylesheet" href="style.css"></head>
+<body>
+<header><div class="brandmark">RM</div><div class="brand"><b>RADWAN MARINE</b><strong>STORES FINDER</strong><small>IMPA & ISSA • OFFLINE CATALOGUE</small></div><button id="langBtn" class="lang">عربي</button></header>
+<nav><button class="tab active" data-tab="search" id="tabSearch">Search</button><button class="tab" data-tab="request" id="tabRequest">Requisition <span id="cartCount">0</span></button><button class="tab" data-tab="saved" id="tabSaved">Saved</button><button class="tab" data-tab="data" id="tabData">Data</button></nav>
+<main>
+<section id="search" class="page active">
+<div class="hero"><div class="eyebrow" data-en="SHIP SUPPLY • SMART SEARCH" data-ar="مستلزمات السفن • بحث ذكي">SHIP SUPPLY • SMART SEARCH</div><h1 data-en="Find the right<br>marine item." data-ar="اعثر على الصنف<br>البحري المطلوب.">Find the right<br>marine item.</h1><p data-en="Search by item name, description or IMPA / ISSA code." data-ar="ابحث باسم الصنف أو الوصف أو رقم IMPA / ISSA.">Search by item name, description or IMPA / ISSA code.</p></div>
+<div class="searchbox"><span>⌕</span><input id="query" placeholder="Search e.g. gloves, air compressor..." autocomplete="off"><button id="clearSearch">×</button></div>
+<div class="filters"><select id="codeFilter"><option value="all">All references</option><option value="impa">IMPA only</option><option value="issa">ISSA only</option><option value="local">Local / unverified</option></select><select id="categoryFilter"><option value="all">All categories</option></select></div>
+<div class="resultbar"><span id="resultCount">Starter catalogue</span><span class="tiny">OFFLINE</span></div><div id="results"></div>
+<div class="notice"><b>Catalogue status</b><span>Starter items are examples for searching and requisition building. IMPA / ISSA codes are intentionally blank until verified catalogue data is imported.</span></div>
+</section>
+<section id="request" class="page">
+<div class="sectionhead"><div><div class="eyebrow">PURCHASING</div><h2 data-en="New requisition" data-ar="طلب مخازن جديد">New requisition</h2></div><span class="pill" id="requestItems">0 ITEMS</span></div>
+<div class="formgrid"><label><span data-en="Vessel name" data-ar="اسم السفينة">Vessel name</span><input id="vessel" placeholder="Vessel name"></label><label><span data-en="IMO number" data-ar="رقم IMO">IMO number</span><input id="imo" placeholder="IMO number"></label><label><span data-en="Department" data-ar="القسم">Department</span><select id="department"><option>Deck</option><option>Engine</option><option>Galley</option><option>Safety</option><option>Electrical</option><option>General</option></select></label><label><span data-en="Requested by" data-ar="مقدم الطلب">Requested by</span><input id="requestedBy" placeholder="Name / Rank"></label></div>
+<div id="cart" class="cartempty">No items added yet. Search the catalogue and tap Add to request.</div>
+<div class="actions"><button class="primary" id="exportRequest">Export requisition CSV</button><button class="secondary" id="saveRequest">Save request</button><button class="ghost" id="clearCart">Clear</button></div>
+</section>
+<section id="saved" class="page"><div class="sectionhead"><div><div class="eyebrow">LOCAL STORAGE</div><h2 data-en="Saved requests" data-ar="الطلبات المحفوظة">Saved requests</h2></div></div><div id="savedList"></div></section>
+<section id="data" class="page">
+<div class="sectionhead"><div><div class="eyebrow">OFFLINE DATABASE</div><h2 data-en="Catalogue data" data-ar="بيانات الكتالوج">Catalogue data</h2></div></div>
+<div class="dataCard"><h3 data-en="Import licensed catalogue CSV" data-ar="استيراد ملف كتالوج مرخص">Import licensed catalogue CSV</h3><p data-en="Import your authorised IMPA / ISSA data file. Imported rows are stored on this phone and searchable offline." data-ar="استورد ملف بيانات IMPA أو ISSA المصرح به. ستُحفظ البيانات على الهاتف ويمكن البحث فيها دون إنترنت.">Import your authorised IMPA / ISSA data file. Imported rows are stored on this phone and searchable offline.</p><input id="csvFile" type="file" accept=".csv,text/csv"><div class="csvhint">Required headers: name_en,name_ar,impa,issa,category,unit,description</div><button class="primary full" id="importBtn">Import CSV</button></div>
+<div class="dataCard"><h3 data-en="Add a custom item" data-ar="إضافة صنف يدوي">Add a custom item</h3><input id="customEn" placeholder="Item name (English)"><input id="customAr" placeholder="اسم الصنف بالعربية"><div class="two"><input id="customImpa" placeholder="IMPA code (optional)"><input id="customIssa" placeholder="ISSA code (optional)"></div><input id="customCategory" placeholder="Category"><input id="customUnit" placeholder="Unit e.g. PCS"><button class="primary full" id="addCustom">Add item</button></div>
+<div class="dataCard"><h3 data-en="Database summary" data-ar="ملخص قاعدة البيانات">Database summary</h3><div id="dbSummary"></div><button class="secondary full" id="exportCatalogue">Export local catalogue CSV</button><button class="danger full" id="resetData">Reset imported and custom data</button></div>
+<div class="notice"><b>Important</b><span>Use IMPA / ISSA data only under the licence terms that permit your intended use. Do not share licensed catalogue files outside the permitted users.</span></div>
+</section>
+</main>
+<div id="toast" class="toast"></div>
+<template id="itemTemplate"><article class="item"><div class="itemtop"><span class="cat"></span><span class="source"></span></div><h3 class="name"></h3><p class="desc"></p><div class="codes"></div><div class="itembottom"><span class="unit"></span><button class="add">+ Add</button></div></article></template>
+<script src="app.js"></script></body></html>
