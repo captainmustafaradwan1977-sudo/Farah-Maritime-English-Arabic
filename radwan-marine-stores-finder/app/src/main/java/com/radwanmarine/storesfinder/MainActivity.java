@@ -40,8 +40,28 @@ public class MainActivity extends Activity {
                 return true;
             }
         });
-        webView.setWebViewClient(new WebViewClient());
+        webView.setWebViewClient(new WebViewClient() {
+            @Override public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                return openExternalUrl(url);
+            }
+            @Override public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                return openExternalUrl(request.getUrl().toString());
+            }
+        });
         webView.loadUrl("file:///android_asset/index.html");
+    }
+
+    private boolean openExternalUrl(String url) {
+        if (url != null && (url.startsWith("https://") || url.startsWith("http://"))) {
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                return true;
+            } catch (Exception e) {
+                Toast.makeText(this, "Cannot open link", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
